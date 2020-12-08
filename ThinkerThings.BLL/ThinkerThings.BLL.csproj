@@ -4,4 +4,9 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ThinkerThings.Core\ThinkerThings.Core.csproj" />
+    <ProjectReference Include="..\ThinkerThings.DAL\ThinkerThings.DAL.csproj" />
+  </ItemGroup>
+
 </Project>

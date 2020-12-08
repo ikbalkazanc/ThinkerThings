@@ -6,7 +6,7 @@ using ThinkerThings.Core.Services.Common;
 
 namespace ThinkerThings.Core.Services
 {
-    public interface IUserService : IService<User>
+    public interface IUserService : IService<User> 
     {
     }
 }
