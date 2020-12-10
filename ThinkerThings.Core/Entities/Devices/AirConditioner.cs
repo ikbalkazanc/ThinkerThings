@@ -5,10 +5,17 @@ using ThinkerThings.Core.Common;
 
 namespace ThinkerThings.Core.Entities.Devices
 {
-    public class AirConditioner : Device
+    public class AirConditioner : BaseEntity , IDevice
     {
         public bool isOpen { get; set; }
         public int Tempature { get; set; }
         public int FanSpeed { get; set; }
+
+        public int GatewayId { get; set ; }
+        public Gateway Gateway { get ; set ; }
+
+        public bool IsDeleted { get ; set; }
+        public DateTime? DeletedOn { get ; set; }
+        public string DeleteRemarks { get ; set ; }
     }
 }

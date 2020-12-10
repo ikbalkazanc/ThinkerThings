@@ -8,11 +8,12 @@ using ThinkerThings.Core.Entities.Devices;
 
 namespace ThinkerThings.DAL.Configuration.Devices
 {
-    public class AirConditionerConfifuration : IEntityTypeConfiguration<AirConditioner>
+    public class AirConditionerConfiguration : IEntityTypeConfiguration<AirConditioner>
     {
         public void Configure(EntityTypeBuilder<AirConditioner> builder)
         {
-            throw new NotImplementedException();
+            builder.HasKey(x => x.Id);
+            builder.ToTable("AirConditioners");
         }
     }
 }

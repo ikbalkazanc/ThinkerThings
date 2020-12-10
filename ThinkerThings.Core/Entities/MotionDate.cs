@@ -11,6 +11,6 @@ namespace ThinkerThings.Core.Entities
         public DateTime Date { get; set; }
 
         public int MotionSensorId { get; set; }
-        public virtual MotionSensor MotionSensor { get; set; }
+        public MotionSensor MotionSensor { get; set; }
     }
 }

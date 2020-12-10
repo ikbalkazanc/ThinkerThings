@@ -11,8 +11,6 @@ namespace ThinkerThings.Core.Entities
         public string SSID { get; set; }
         public string Passsword { get; set; }
 
-        [ForeignKey("Gateway")]
-        public int gatewayId { get; set; }
         public Gateway Gateway { get; set; }
 
     }

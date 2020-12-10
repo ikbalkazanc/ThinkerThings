@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ThinkerThings.Core.Services.Common
 {
-    public interface IDeviceService
+    public interface IDeviceService<TDevice> where TDevice : class
     {
     }
 }

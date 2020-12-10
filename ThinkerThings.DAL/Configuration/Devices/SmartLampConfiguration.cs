@@ -12,7 +12,8 @@ namespace ThinkerThings.DAL.Configuration.Devices
     {
         public void Configure(EntityTypeBuilder<SmartLamp> builder)
         {
-            throw new NotImplementedException();
+            builder.HasKey(x => x.Id);
+            builder.ToTable("SmartLamp");
         }
     }
 }

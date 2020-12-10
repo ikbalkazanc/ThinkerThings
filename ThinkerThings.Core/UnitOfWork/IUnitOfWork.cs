@@ -9,14 +9,15 @@ namespace ThinkerThings.Core.UnitOfWork
 {
     public interface IUnitOfWork
     {
-        IUserRepository Users { get; set; }
-        IGatewayRepository Gateways { get; set; }
-        IMotionDateRepository MotionDates { get; set; }
+        IUserRepository Users { get;  }
+        IGatewayRepository Gateways { get;  }
+        IMotionDateRepository MotionDates { get;  }
+        INetworkRepository Networks { get; }
 
         //Devices
-        IAirConditionerRepository AirConditioners { get; set; }
-        ISmartLampRepository SmartLambs { get; set; }
-        IMotionSensorRepository MotionSensors { get; set; }
+        IAirConditionerRepository AirConditioners { get;  }
+        ISmartLampRepository SmartLambs { get;  }
+        IMotionSensorRepository MotionSensors { get;  }
 
         Task CommitAsync();
         void Commit();

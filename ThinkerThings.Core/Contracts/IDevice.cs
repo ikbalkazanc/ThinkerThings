@@ -6,12 +6,10 @@ using ThinkerThings.Core.Entities;
 
 namespace ThinkerThings.Core.Common
 {
-    public class Device : BaseEntity , IDeleteable
+    public interface IDevice :  IDeleteable
     {
+        public int GatewayId { get; set; }
         public Gateway Gateway { get; set; }
 
-        public bool IsDeleted { get; set; }
-        public DateTime? DeletedOn { get; set; }
-        public string DeleteRemarks { get; set; }
     }
 }

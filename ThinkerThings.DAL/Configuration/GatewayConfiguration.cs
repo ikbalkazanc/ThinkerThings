@@ -11,7 +11,8 @@ namespace ThinkerThings.DAL.Configuration
     {
         public void Configure(EntityTypeBuilder<Gateway> builder)
         {
-            throw new NotImplementedException();
+            builder.HasKey(x => x.Id);
+            builder.ToTable("Gateways");
         }
     }
 }

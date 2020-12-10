@@ -9,7 +9,7 @@ using ThinkerThings.Core.UnitOfWork;
 
 namespace ThinkerThings.BLL.Service
 {
-    class GatewayService : Service<Gateway>, IGatewayService 
+    public class GatewayService : Service<Gateway>, IGatewayService 
     {
         public GatewayService(IUnitOfWork unitofwork, IRepository<Gateway> repository) : base(unitofwork, repository)
         {

@@ -6,11 +6,22 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using ThinkerThings.BLL.Common;
+using ThinkerThings.BLL.Service;
+using ThinkerThings.BLL.Service.Devices;
+using ThinkerThings.Core.Repositories.Common;
+using ThinkerThings.Core.Services;
+using ThinkerThings.Core.Services.Common;
+using ThinkerThings.Core.Services.Device;
+using ThinkerThings.Core.UnitOfWork;
+using ThinkerThings.DAL;
+using ThinkerThings.DAL.Repositories.Common;
+using ThinkerThings.DAL.UnitOfWork;
 
 namespace ThinkerThings.API
 {
@@ -28,9 +39,24 @@ namespace ThinkerThings.API
         {
 
             services.AddControllers();
-            services.AddSwaggerGen(c =>
+            services.AddSwaggerDocument();
+
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped(typeof(IDeviceRepository<>), typeof(DeviceRepository<>));
+            services.AddScoped(typeof(IService<>), typeof(Service<>));
+            services.AddScoped(typeof(IDeviceService<>), typeof(DeviceService<>));
+            services.AddScoped(typeof(IUserService), typeof(UserService));
+            services.AddScoped(typeof(INetworkService), typeof(NetworkService));
+            services.AddScoped(typeof(IMotionDateService), typeof(MotionDateService));
+            services.AddScoped(typeof(IGatewayService), typeof(GatewayService));
+            services.AddScoped(typeof(IAirConditionerService), typeof(AirConditionerService));
+            services.AddScoped(typeof(IMotionSensorService), typeof(MotionSensorService));
+            services.AddScoped(typeof(ISmartLampService), typeof(SmartLampService));
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddDbContext<AppDbContext>(options =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ThinkerThings.API", Version = "v1" });
+                options.UseNpgsql(Configuration["ConnectionStrings:PostgreSqlConStr"].ToString());
             });
         }
 
@@ -40,16 +66,16 @@ namespace ThinkerThings.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ThinkerThings.API v1"));
+
             }
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            
             app.UseAuthorization();
-
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

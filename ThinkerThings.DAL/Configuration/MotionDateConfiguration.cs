@@ -11,7 +11,8 @@ namespace ThinkerThings.DAL.Configuration
     {
         public void Configure(EntityTypeBuilder<MotionDate> builder)
         {
-            throw new NotImplementedException();
+            builder.HasKey(x => x.Id);
+            builder.ToTable("MotionDates");
         }
     }
 }

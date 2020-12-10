@@ -20,7 +20,7 @@ namespace ThinkerThings.DAL
             modelBuilder.ApplyConfiguration(new MotionDateConfiguration());
             modelBuilder.ApplyConfiguration(new GatewayConfiguration());
 
-            modelBuilder.ApplyConfiguration(new AirConditionerConfifuration());
+            modelBuilder.ApplyConfiguration(new AirConditionerConfiguration());
             modelBuilder.ApplyConfiguration(new MotionSensorConfiguration());
             modelBuilder.ApplyConfiguration(new SmartLampConfiguration());
 

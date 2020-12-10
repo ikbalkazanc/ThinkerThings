@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using ThinkerThings.Core.Repositories;
+using ThinkerThings.Core.Repositories.Device;
+using ThinkerThings.Core.UnitOfWork;
 using ThinkerThings.DAL.Repositories;
 using ThinkerThings.DAL.Repositories.Common;
 using ThinkerThings.DAL.Repositories.Devices;
 
 namespace ThinkerThings.DAL.UnitOfWork
 {
-    public class UnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly AppDbContext _context;
         private GatewayRepository _gatewayRepository;
@@ -24,15 +27,15 @@ namespace ThinkerThings.DAL.UnitOfWork
         {
             _context = context;
         }
-        public GatewayRepository Gateways => (_gatewayRepository = _gatewayRepository ?? new GatewayRepository(_context));
-        public NetworkRepository Networks => (_networkRepository = _networkRepository ?? new NetworkRepository(_context));
-        public UserRepository Users => (_userRepository = _userRepository ?? new UserRepository(_context));
-        public MotionDateRepository MotionDates => (_motionDateRepository = _motionDateRepository ?? new MotionDateRepository(_context));
-        public AirConditionerRepository AirConditioners => (_airConditionerRepository = _airConditionerRepository ?? new AirConditionerRepository(_context));
-        public MotionSensorRepository MotionSensors => (_motionSensorRepository = _motionSensorRepository ?? new MotionSensorRepository(_context));
-        public SmartLampRepository SmartLambs => (_smartLambRepository = _smartLambRepository ?? new SmartLampRepository(_context));
+        public IGatewayRepository Gateways => (_gatewayRepository = _gatewayRepository ?? new GatewayRepository(_context));
+        public INetworkRepository Networks => (_networkRepository = _networkRepository ?? new NetworkRepository(_context));
+        public IUserRepository Users => (_userRepository = _userRepository ?? new UserRepository(_context));
+        public IMotionDateRepository MotionDates => (_motionDateRepository = _motionDateRepository ?? new MotionDateRepository(_context));
+        public IAirConditionerRepository AirConditioners => (_airConditionerRepository = _airConditionerRepository ?? new AirConditionerRepository(_context));
+        public IMotionSensorRepository MotionSensors => (_motionSensorRepository = _motionSensorRepository ?? new MotionSensorRepository(_context));
+        public ISmartLampRepository SmartLambs => (_smartLambRepository = _smartLambRepository ?? new SmartLampRepository(_context));
 
-
+        
         public void Commit()
         {
             _context.SaveChanges();
