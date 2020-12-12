@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using ThinkerThings.Core.Common;
-using ThinkerThings.Core.Contracts;
+using ThinkerThings.Core.Entities;
 
-namespace ThinkerThings.Core.Entities
+namespace ThinkerThings.Core.DTOs.UserDto
 {
-    public class User : BaseEntity 
+    public class CreateUserDto
     {
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Password { get; set; }
-        public ICollection<Gateway> Gateways { get; set; }
-
 
     }
 }

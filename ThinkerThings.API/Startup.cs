@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using ThinkerThings.BLL.Common;
 using ThinkerThings.BLL.Service;
@@ -40,7 +41,7 @@ namespace ThinkerThings.API
 
             services.AddControllers();
             services.AddSwaggerDocument();
-
+            services.AddAutoMapper(typeof(Startup));
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(IDeviceRepository<>), typeof(DeviceRepository<>));
             services.AddScoped(typeof(IService<>), typeof(Service<>));

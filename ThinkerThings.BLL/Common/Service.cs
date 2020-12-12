@@ -12,13 +12,13 @@ namespace ThinkerThings.BLL.Common
     public class Service<TEntity> : IService<TEntity> where TEntity : class
     {
         public readonly IUnitOfWork _unitOfWork;
-        private readonly IRepository<TEntity> _repository;
+        protected readonly IRepository<TEntity> _repository;
         public Service(IUnitOfWork unitofwork, IRepository<TEntity> repository)
         {
             _unitOfWork = unitofwork;
             _repository = repository;
         }
-        public async Task<TEntity> AddAsync(TEntity entity)
+        public virtual async Task<TEntity> AddAsync(TEntity entity)
         {
             await _repository.AddAsync(entity);
             await _unitOfWork.CommitAsync();

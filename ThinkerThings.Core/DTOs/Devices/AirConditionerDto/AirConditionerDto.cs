@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using ThinkerThings.Core.Common;
-using ThinkerThings.Core.Contracts;
+using ThinkerThings.Core.DTOs.Common;
 
-namespace ThinkerThings.Core.Entities.Devices
+namespace ThinkerThings.Core.DTOs.Devices.AirConditionerDto
 {
-    public class AirConditioner :  Device 
+    class AirConditionerDto : DeviceDTO
     {
         public bool isOpen { get; set; }
         public int Tempature { get; set; }
         public int FanSpeed { get; set; }
-
     }
 }

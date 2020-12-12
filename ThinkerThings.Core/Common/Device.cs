@@ -6,7 +6,7 @@ using ThinkerThings.Core.Entities;
 
 namespace ThinkerThings.Core.Common
 {
-    public interface IDevice :  IDeleteable
+    public class Device : BaseEntity
     {
         public int GatewayId { get; set; }
         public Gateway Gateway { get; set; }

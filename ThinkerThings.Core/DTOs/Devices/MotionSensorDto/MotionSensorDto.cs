@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using ThinkerThings.Core.Common;
-using ThinkerThings.Core.Contracts;
+using ThinkerThings.Core.DTOs.Common;
+using ThinkerThings.Core.Entities;
 
-namespace ThinkerThings.Core.Entities.Devices
+namespace ThinkerThings.Core.DTOs.Devices.MotionSensorDto
 {
-    public class MotionSensor : Device
+    public class MotionSensorDto : DeviceDTO
     {
         public bool isAnyMotion { get; set; }
         public ICollection<MotionDate> MotionDate { get; set; }
-
     }
 }

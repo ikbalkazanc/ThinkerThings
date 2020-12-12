@@ -6,10 +6,10 @@ using ThinkerThings.Core.Common;
 
 namespace ThinkerThings.Core.Entities
 {
-    public class Network : AuditableBaseEntity
+    public class Network : BaseEntity
     {
         public string SSID { get; set; }
-        public string Passsword { get; set; }
+        public string Password { get; set; }
 
         public Gateway Gateway { get; set; }
 
