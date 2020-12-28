@@ -11,7 +11,7 @@ namespace ThinkerThings.Core.Entities
         public string SSID { get; set; }
         public string Password { get; set; }
 
-        public Gateway Gateway { get; set; }
+        public User User { get; set; }
 
     }
 }

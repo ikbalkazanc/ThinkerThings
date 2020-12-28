@@ -14,7 +14,6 @@ namespace ThinkerThings.DAL.UnitOfWork
     public class UnitOfWork : IUnitOfWork
     {
         private readonly AppDbContext _context;
-        private GatewayRepository _gatewayRepository;
         private NetworkRepository _networkRepository;
         private UserRepository _userRepository;
         private MotionDateRepository _motionDateRepository;
@@ -27,7 +26,7 @@ namespace ThinkerThings.DAL.UnitOfWork
         {
             _context = context;
         }
-        public IGatewayRepository Gateways => (_gatewayRepository = _gatewayRepository ?? new GatewayRepository(_context));
+
         public INetworkRepository Networks => (_networkRepository = _networkRepository ?? new NetworkRepository(_context));
         public IUserRepository Users => (_userRepository = _userRepository ?? new UserRepository(_context));
         public IMotionDateRepository MotionDates => (_motionDateRepository = _motionDateRepository ?? new MotionDateRepository(_context));

@@ -5,7 +5,7 @@ using ThinkerThings.Core.DTOs.Common;
 
 namespace ThinkerThings.Core.DTOs.Devices.AirConditionerDto
 {
-    class AirConditionerDto : DeviceDTO
+    public class AirConditionerDto : DeviceDTO
     {
         public bool isOpen { get; set; }
         public int Tempature { get; set; }

@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using ThinkerThings.Core.DTOs.Devices.AirConditionerDto;
-using ThinkerThings.Core.DTOs.GatewayDto;
 using ThinkerThings.Core.DTOs.NetworkDto;
 using ThinkerThings.Core.Entities;
 using ThinkerThings.Core.Entities.Devices;
@@ -30,8 +29,8 @@ namespace ThinkerThings.API.Controllers.Devices
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var device = await _airConditionerService.GetAllAsync();
-            return Ok(_mapper.Map<IEnumerable<AirConditionerCreateDto>>(device));
+            var devices = await _airConditionerService.GetAllAsync();
+            return Ok(devices);
         }
 
         [HttpPost]

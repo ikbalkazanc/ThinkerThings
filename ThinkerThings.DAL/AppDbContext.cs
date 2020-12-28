@@ -18,7 +18,6 @@ namespace ThinkerThings.DAL
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new NetworkConfiguration());
             modelBuilder.ApplyConfiguration(new MotionDateConfiguration());
-            modelBuilder.ApplyConfiguration(new GatewayConfiguration());
 
             modelBuilder.ApplyConfiguration(new AirConditionerConfiguration());
             modelBuilder.ApplyConfiguration(new MotionSensorConfiguration());

@@ -29,10 +29,10 @@ namespace ThinkerThings.DAL.Migrations
                     b.Property<int>("FanSpeed")
                         .HasColumnType("integer");
 
-                    b.Property<int>("GatewayId")
+                    b.Property<int>("Tempature")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Tempature")
+                    b.Property<int>("UserId")
                         .HasColumnType("integer");
 
                     b.Property<bool>("isOpen")
@@ -40,7 +40,7 @@ namespace ThinkerThings.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GatewayId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("AirConditioners");
                 });
@@ -52,7 +52,7 @@ namespace ThinkerThings.DAL.Migrations
                         .HasColumnType("integer")
                         .UseIdentityByDefaultColumn();
 
-                    b.Property<int>("GatewayId")
+                    b.Property<int>("UserId")
                         .HasColumnType("integer");
 
                     b.Property<bool>("isAnyMotion")
@@ -60,7 +60,7 @@ namespace ThinkerThings.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GatewayId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("MotionSensors");
                 });
@@ -72,7 +72,7 @@ namespace ThinkerThings.DAL.Migrations
                         .HasColumnType("integer")
                         .UseIdentityByDefaultColumn();
 
-                    b.Property<int>("GatewayId")
+                    b.Property<int>("UserId")
                         .HasColumnType("integer");
 
                     b.Property<bool>("isOpen")
@@ -80,44 +80,9 @@ namespace ThinkerThings.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GatewayId");
-
-                    b.ToTable("SmartLamp");
-                });
-
-            modelBuilder.Entity("ThinkerThings.Core.Entities.Gateway", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .UseIdentityByDefaultColumn();
-
-                    b.Property<string>("DeleteRemarks")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<int>("NetworkId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.Property<bool>("isAlive")
-                        .HasColumnType("boolean");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NetworkId")
-                        .IsUnique();
-
                     b.HasIndex("UserId");
 
-                    b.ToTable("Gateways");
+                    b.ToTable("SmartLamp");
                 });
 
             modelBuilder.Entity("ThinkerThings.Core.Entities.MotionDate", b =>
@@ -147,7 +112,7 @@ namespace ThinkerThings.DAL.Migrations
                         .HasColumnType("integer")
                         .UseIdentityByDefaultColumn();
 
-                    b.Property<string>("Passsword")
+                    b.Property<string>("Password")
                         .HasColumnType("text");
 
                     b.Property<string>("SSID")
@@ -165,10 +130,16 @@ namespace ThinkerThings.DAL.Migrations
                         .HasColumnType("integer")
                         .UseIdentityByDefaultColumn();
 
+                    b.Property<string>("Mail")
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
+
+                    b.Property<int>("NetworkId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Password")
                         .HasColumnType("text");
@@ -180,14 +151,17 @@ namespace ThinkerThings.DAL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("NetworkId")
+                        .IsUnique();
+
                     b.ToTable("Users");
                 });
 
             modelBuilder.Entity("ThinkerThings.Core.Entities.Devices.AirConditioner", b =>
                 {
-                    b.HasOne("ThinkerThings.Core.Entities.Gateway", "Gateway")
+                    b.HasOne("ThinkerThings.Core.Entities.User", "Gateway")
                         .WithMany("AirConditioners")
-                        .HasForeignKey("GatewayId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -196,9 +170,9 @@ namespace ThinkerThings.DAL.Migrations
 
             modelBuilder.Entity("ThinkerThings.Core.Entities.Devices.MotionSensor", b =>
                 {
-                    b.HasOne("ThinkerThings.Core.Entities.Gateway", "Gateway")
+                    b.HasOne("ThinkerThings.Core.Entities.User", "Gateway")
                         .WithMany("MotionSensors")
-                        .HasForeignKey("GatewayId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -207,32 +181,13 @@ namespace ThinkerThings.DAL.Migrations
 
             modelBuilder.Entity("ThinkerThings.Core.Entities.Devices.SmartLamp", b =>
                 {
-                    b.HasOne("ThinkerThings.Core.Entities.Gateway", "Gateway")
+                    b.HasOne("ThinkerThings.Core.Entities.User", "Gateway")
                         .WithMany("SmartLamps")
-                        .HasForeignKey("GatewayId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Gateway");
-                });
-
-            modelBuilder.Entity("ThinkerThings.Core.Entities.Gateway", b =>
-                {
-                    b.HasOne("ThinkerThings.Core.Entities.Network", "Network")
-                        .WithOne("Gateway")
-                        .HasForeignKey("ThinkerThings.Core.Entities.Gateway", "NetworkId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ThinkerThings.Core.Entities.User", "User")
-                        .WithMany("Gateways")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Network");
-
-                    b.Navigation("User");
+                    b.Navigation("Gateway");
                 });
 
             modelBuilder.Entity("ThinkerThings.Core.Entities.MotionDate", b =>
@@ -246,28 +201,34 @@ namespace ThinkerThings.DAL.Migrations
                     b.Navigation("MotionSensor");
                 });
 
+            modelBuilder.Entity("ThinkerThings.Core.Entities.User", b =>
+                {
+                    b.HasOne("ThinkerThings.Core.Entities.Network", "Network")
+                        .WithOne("User")
+                        .HasForeignKey("ThinkerThings.Core.Entities.User", "NetworkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Network");
+                });
+
             modelBuilder.Entity("ThinkerThings.Core.Entities.Devices.MotionSensor", b =>
                 {
                     b.Navigation("MotionDate");
                 });
 
-            modelBuilder.Entity("ThinkerThings.Core.Entities.Gateway", b =>
+            modelBuilder.Entity("ThinkerThings.Core.Entities.Network", b =>
+                {
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ThinkerThings.Core.Entities.User", b =>
                 {
                     b.Navigation("AirConditioners");
 
                     b.Navigation("MotionSensors");
 
                     b.Navigation("SmartLamps");
-                });
-
-            modelBuilder.Entity("ThinkerThings.Core.Entities.Network", b =>
-                {
-                    b.Navigation("Gateway");
-                });
-
-            modelBuilder.Entity("ThinkerThings.Core.Entities.User", b =>
-                {
-                    b.Navigation("Gateways");
                 });
 #pragma warning restore 612, 618
         }

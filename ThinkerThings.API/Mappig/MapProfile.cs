@@ -6,7 +6,6 @@ using AutoMapper;
 using ThinkerThings.Core.DTOs.Devices.AirConditionerDto;
 using ThinkerThings.Core.DTOs.Devices.MotionSensorDto;
 using ThinkerThings.Core.DTOs.Devices.SmartLampDto;
-using ThinkerThings.Core.DTOs.GatewayDto;
 using ThinkerThings.Core.DTOs.MotionDateDto;
 using ThinkerThings.Core.DTOs.NetworkDto;
 using ThinkerThings.Core.DTOs.UserDto;
@@ -20,28 +19,28 @@ namespace ThinkerThings.API.Mappig
         public MapProfile()
         {
             CreateMap<CreateUserDto,User>();
+            CreateMap<User, CreateUserDto > ();
 
             CreateMap<NetworkDto, Network>();
             CreateMap<Network, NetworkDto>();
 
             CreateMap<MotionDate, MotionDateDto>();
             CreateMap<MotionDateDto, MotionDate>();
-
-            CreateMap<Gateway, GatewayDto>();
-            CreateMap<GatewayDto, Gateway>();
+            
 
             CreateMap<AirConditioner, AirConditionerCreateDto>();
             CreateMap<AirConditionerCreateDto, AirConditioner>();
-            CreateMap<AirConditioner, AirConditionerCreateDto>();
-            CreateMap<AirConditionerCreateDto, AirConditioner>();
+            CreateMap<AirConditioner, AirConditionerDto>();
+            CreateMap<AirConditionerDto, AirConditioner>();
 
             CreateMap<SmartLamp, SmartLampDto>();
             CreateMap<SmartLampDto, SmartLamp>();
 
+
             CreateMap<MotionSensor, MotionSensorDto>();
             CreateMap<MotionSensorDto, MotionSensor>();
-            CreateMap<MotionSensor, MotionSensorCreateDtoDto>();
-            CreateMap<MotionSensorCreateDtoDto, MotionSensor>();
+            CreateMap<MotionSensor, MotionSensorCreateDto>();
+            CreateMap<MotionSensorCreateDto, MotionSensor>();
         }
     }
 }

@@ -14,12 +14,12 @@ namespace ThinkerThings.API.Controllers.Devices
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SmartLambsController : ControllerBase
+    public class SmartLampsController : ControllerBase
     {
         private readonly ISmartLampService _smartLampService;
         private readonly IMapper _mapper;
 
-        public SmartLambsController(ISmartLampService smartLampService, IMapper mapper)
+        public SmartLampsController(ISmartLampService smartLampService, IMapper mapper)
         {
             _smartLampService = smartLampService;
             _mapper = mapper;

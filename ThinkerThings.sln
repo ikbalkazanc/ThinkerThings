@@ -11,7 +11,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThinkerThings.Common", "Thi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThinkerThings.DAL", "ThinkerThings.DAL\ThinkerThings.DAL.csproj", "{F80B70B7-1A19-4387-A0B5-7CD1140FBE32}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThinkerThings.BLL", "ThinkerThings.BLL\ThinkerThings.BLL.csproj", "{FFCB637A-733E-4B36-801C-337B29FDD0DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThinkerThings.BLL", "ThinkerThings.BLL\ThinkerThings.BLL.csproj", "{FFCB637A-733E-4B36-801C-337B29FDD0DE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewFolder1", "NewFolder1", "{E1B687FB-F230-4A18-9EEE-3DFF8450AE36}"
+	ProjectSection(SolutionItems) = preProject
+		message_templates.json = message_templates.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

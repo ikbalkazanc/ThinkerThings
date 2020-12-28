@@ -10,7 +10,6 @@ namespace ThinkerThings.Core.UnitOfWork
     public interface IUnitOfWork
     {
         IUserRepository Users { get;  }
-        IGatewayRepository Gateways { get;  }
         IMotionDateRepository MotionDates { get;  }
         INetworkRepository Networks { get; }
 

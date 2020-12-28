@@ -1,0 +1,11 @@
+//on/off button client to device
+{
+  "signalrConnectionId": "",
+  "GatewayId": "",
+  "DeviceId": "",
+  "Command": {
+    "type": "button|",
+    "buttonNumber": "1",
+    "value": "true|false"
+  }
+}

@@ -28,14 +28,14 @@ namespace ThinkerThings.API.Controllers.Devices
         public async Task<IActionResult> GetAll()
         {
             var device = await _motionSensorService.GetAllAsync();
-            return Ok(_mapper.Map<IEnumerable<SmartLampDto>>(device));
+            return Ok(_mapper.Map<IEnumerable<MotionSensorDto>>(device));
         }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] MotionSensorCreateDto device)
         {
             var newDevice = await _motionSensorService.AddAsync(_mapper.Map<MotionSensor>(device));
-            return Ok(_mapper.Map<SmartLampDto>(newDevice));
+            return Ok(_mapper.Map<MotionSensorDto>(newDevice));
         }
     }
 }

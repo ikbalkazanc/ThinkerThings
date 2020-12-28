@@ -8,8 +8,8 @@ namespace ThinkerThings.Core.Common
 {
     public class Device : BaseEntity
     {
-        public int GatewayId { get; set; }
-        public Gateway Gateway { get; set; }
+        public int UserId { get; set; }
+        public User Gateway { get; set; }
 
     }
 }
