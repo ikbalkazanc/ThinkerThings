@@ -11,15 +11,16 @@ using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using ThinkerThings.API.Models;
+using ThinkerThings.API.RTC.SignalR;
 
-namespace ThinkerThings.API.RTC
+namespace ThinkerThings.API.RTC.WebSocketHub
 {
-    public class WebsocketHub
+    public class WebSocketDevice : IWebSocketDevice
     {
         private readonly WsListener wsListener;
-        public static ConcurrentDictionary<int, WebSocket> WebSocketsClients = new ConcurrentDictionary<int, WebSocket>();
+        public ConcurrentDictionary<int, WebSocket> WebSocketsClients = new ConcurrentDictionary<int, WebSocket>();
         private readonly IHubContext<MyHub> _hub;
-        public WebsocketHub(IHubContext<MyHub> hub)
+        public WebSocketDevice(IHubContext<MyHub> hub)
         {
             wsListener = new WsListener(hub);
             _hub = hub;
@@ -43,37 +44,16 @@ namespace ThinkerThings.API.RTC
                 await websocket.Value.SendAsync(new ArraySegment<byte>(buffer, 0, buffer.Length), WebSocketMessageType.Text, true, CancellationToken.None);
             }
         }
-        public async Task ToggleLamp(RtcMessage command)
-        {
-            var websocket = WebSocketsClients.FirstOrDefault(x => x.Key == command.GatewayId);
-            if (websocket.Value != null)
-            {
-                command.Command.type = "BUTTON_TOGGLE";
-                var message = JsonConvert.SerializeObject(command);
-                var buffer = Encoding.ASCII.GetBytes(message);
-                await websocket.Value.SendAsync(new ArraySegment<byte>(buffer, 0, buffer.Length), WebSocketMessageType.Text, true, CancellationToken.None);
-            }
-        }
-        public async Task GetAllDeviceStatusFromGateway(RtcMessage command)
-        {
-            var websocket = WebSocketsClients.FirstOrDefault(x => x.Key == command.GatewayId);
-            if (websocket.Value != null)
-            {
-                command.Command.type = "GET_ALL_DEVICES_STATUS";
-                var message = JsonConvert.SerializeObject(command);
-                var buffer = Encoding.ASCII.GetBytes(message);
-                await websocket.Value.SendAsync(new ArraySegment<byte>(buffer, 0, buffer.Length), WebSocketMessageType.Text, true, CancellationToken.None);
-            }
-        }
-        public async Task Connect(HttpContext context, int GatewayId)
+
+        public virtual async Task Connect(HttpContext context, int DeviceId)
         {
             WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
-            WebSocketsClients.TryAdd(GatewayId, webSocket);
+            WebSocketsClients.TryAdd(DeviceId, webSocket);
             await OnWebSocketConnectedAsync();
             await wsListener.Listener(context, webSocket);
 
         }
-        public async Task<bool> Disconnect(int id)
+        public virtual async Task<bool> Disconnect(int id)
         {
             var toBeRemoved = WebSocketsClients.FirstOrDefault(x => x.Key == id);
             if (toBeRemoved.Value != null)

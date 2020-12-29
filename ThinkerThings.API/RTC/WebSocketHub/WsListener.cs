@@ -6,8 +6,9 @@ using System.Linq;
 using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
+using ThinkerThings.API.RTC.SignalR;
 
-namespace ThinkerThings.API.RTC
+namespace ThinkerThings.API.RTC.WebSocketHub
 {
     public class WsListener
     {
@@ -20,15 +21,16 @@ namespace ThinkerThings.API.RTC
         {
             var buffer = new byte[1024 * 4];
             WebSocketReceiveResult result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-            await _manager.ReceiveNewMessage(System.Text.Encoding.UTF8.GetString(buffer).Substring(0, await FindZeroIndex(buffer)));
+            await _manager.ReceiveNewMessage(System.Text.Encoding.UTF8.GetString(buffer).Substring(0, FindZeroIndex(buffer)));
             while (!result.CloseStatus.HasValue)
             {
+                buffer = new byte[1024 * 4];
                 result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-                await _manager.ReceiveNewMessage(System.Text.Encoding.UTF8.GetString(buffer).Substring(0, await FindZeroIndex(buffer)));
+                await _manager.ReceiveNewMessage(System.Text.Encoding.UTF8.GetString(buffer).Substring(0, FindZeroIndex(buffer)));
             }
             await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
         }
-        public async Task<int> FindZeroIndex(byte[] buffer)
+        public  int FindZeroIndex(byte[] buffer)
         {
             int i = 0;
             while (buffer[i] != 0)

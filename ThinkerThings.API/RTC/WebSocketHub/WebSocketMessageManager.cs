@@ -5,8 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ThinkerThings.API.Models;
+using ThinkerThings.API.RTC.SignalR;
 
-namespace ThinkerThings.API.RTC
+namespace ThinkerThings.API.RTC.WebSocketHub
 {
     public class WebSocketMessageManager
     {
@@ -17,8 +18,8 @@ namespace ThinkerThings.API.RTC
         }
         public async Task ReceiveNewMessage(string message)
         {
-            var data = JsonConvert.DeserializeObject<RtcMessage>(message);
-            if(data.Command.type == "GET_ALL_DEVICES_STATUS")
+            //var data = JsonConvert.DeserializeObject<RtcMessage>(message);
+            if("data.Command.type" == "BUTTON_TOGGLE")
             {
                 
             } 

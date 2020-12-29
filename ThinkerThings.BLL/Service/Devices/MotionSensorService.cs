@@ -9,7 +9,7 @@ using ThinkerThings.Core.UnitOfWork;
 
 namespace ThinkerThings.BLL.Service.Devices
 {
-    public class MotionSensorService : DeviceService<MotionSensor> , IMotionSensorService
+    public class MotionSensorService : DeviceService<MotionSensor>,IMotionSensorService 
     {
         public MotionSensorService(IUnitOfWork unitofwork, IRepository<MotionSensor> repository) : base(unitofwork, repository)
         {

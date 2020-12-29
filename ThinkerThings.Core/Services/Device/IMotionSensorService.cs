@@ -6,7 +6,7 @@ using ThinkerThings.Core.Services.Common;
 
 namespace ThinkerThings.Core.Services.Device
 {
-    public interface IMotionSensorService : IService<MotionSensor>
+    public interface IMotionSensorService : IService<MotionSensor> , IDeviceService<MotionSensor>
     {
     }
 }

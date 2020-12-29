@@ -6,7 +6,7 @@ using ThinkerThings.Core.Services.Common;
 
 namespace ThinkerThings.Core.Services.Device
 {
-    public interface IAirConditionerService : IService<AirConditioner>
+    public interface IAirConditionerService : IService<AirConditioner> , IDeviceService<AirConditioner>
     {
     }
 }

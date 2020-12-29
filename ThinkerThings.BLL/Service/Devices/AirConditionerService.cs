@@ -9,7 +9,7 @@ using ThinkerThings.Core.UnitOfWork;
 
 namespace ThinkerThings.BLL.Service.Devices
 {
-    public class AirConditionerService : DeviceService<AirConditioner> ,IAirConditionerService
+    public class AirConditionerService : DeviceService<AirConditioner>, IAirConditionerService
     {
         public AirConditionerService(IUnitOfWork unitofwork, IRepository<AirConditioner> repository) : base(unitofwork, repository)
         {

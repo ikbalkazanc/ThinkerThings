@@ -30,6 +30,7 @@ namespace ThinkerThings.API.Controllers.Devices
             var device = await _smartLampService.GetAllAsync();
             return Ok(_mapper.Map<IEnumerable<SmartLampDto>>(device));
         }
+        
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] SmartLampDto device)

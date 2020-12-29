@@ -6,10 +6,10 @@ using ThinkerThings.Core.Entities;
 
 namespace ThinkerThings.Core.Common
 {
-    public class Device : BaseEntity
+    public class Device : BaseEntity 
     {
         public int UserId { get; set; }
-        public User Gateway { get; set; }
+        public User User { get; set; }
 
     }
 }

@@ -9,7 +9,7 @@ using ThinkerThings.Core.UnitOfWork;
 
 namespace ThinkerThings.BLL.Service.Devices
 {
-    public class SmartLampService : DeviceService<SmartLamp>,ISmartLampService
+    public class SmartLampService : DeviceService<SmartLamp>, ISmartLampService
     {
         public SmartLampService(IUnitOfWork unitofwork, IRepository<SmartLamp> repository) : base(unitofwork, repository)
         {

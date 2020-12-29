@@ -43,6 +43,16 @@ namespace ThinkerThings.DAL.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("AirConditioners");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            FanSpeed = 0,
+                            Tempature = 0,
+                            UserId = 1,
+                            isOpen = false
+                        });
                 });
 
             modelBuilder.Entity("ThinkerThings.Core.Entities.Devices.MotionSensor", b =>
@@ -63,6 +73,14 @@ namespace ThinkerThings.DAL.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("MotionSensors");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            UserId = 1,
+                            isAnyMotion = false
+                        });
                 });
 
             modelBuilder.Entity("ThinkerThings.Core.Entities.Devices.SmartLamp", b =>
@@ -83,6 +101,14 @@ namespace ThinkerThings.DAL.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("SmartLamp");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            UserId = 1,
+                            isOpen = false
+                        });
                 });
 
             modelBuilder.Entity("ThinkerThings.Core.Entities.MotionDate", b =>
@@ -103,6 +129,26 @@ namespace ThinkerThings.DAL.Migrations
                     b.HasIndex("MotionSensorId");
 
                     b.ToTable("MotionDates");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Date = new DateTime(2020, 12, 29, 2, 4, 14, 610, DateTimeKind.Local).AddTicks(3168),
+                            MotionSensorId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Date = new DateTime(2020, 12, 29, 2, 4, 14, 611, DateTimeKind.Local).AddTicks(5971),
+                            MotionSensorId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Date = new DateTime(2020, 12, 29, 2, 4, 14, 611, DateTimeKind.Local).AddTicks(5987),
+                            MotionSensorId = 1
+                        });
                 });
 
             modelBuilder.Entity("ThinkerThings.Core.Entities.Network", b =>
@@ -121,6 +167,14 @@ namespace ThinkerThings.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Networks");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Password = "123",
+                            SSID = "Network"
+                        });
                 });
 
             modelBuilder.Entity("ThinkerThings.Core.Entities.User", b =>
@@ -155,39 +209,50 @@ namespace ThinkerThings.DAL.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Mail = "ikbalkazanc",
+                            Name = "ikbal",
+                            NetworkId = 1,
+                            Password = "123",
+                            Surname = "Kazancı"
+                        });
                 });
 
             modelBuilder.Entity("ThinkerThings.Core.Entities.Devices.AirConditioner", b =>
                 {
-                    b.HasOne("ThinkerThings.Core.Entities.User", "Gateway")
+                    b.HasOne("ThinkerThings.Core.Entities.User", "User")
                         .WithMany("AirConditioners")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Gateway");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ThinkerThings.Core.Entities.Devices.MotionSensor", b =>
                 {
-                    b.HasOne("ThinkerThings.Core.Entities.User", "Gateway")
+                    b.HasOne("ThinkerThings.Core.Entities.User", "User")
                         .WithMany("MotionSensors")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Gateway");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ThinkerThings.Core.Entities.Devices.SmartLamp", b =>
                 {
-                    b.HasOne("ThinkerThings.Core.Entities.User", "Gateway")
+                    b.HasOne("ThinkerThings.Core.Entities.User", "User")
                         .WithMany("SmartLamps")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Gateway");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("ThinkerThings.Core.Entities.MotionDate", b =>

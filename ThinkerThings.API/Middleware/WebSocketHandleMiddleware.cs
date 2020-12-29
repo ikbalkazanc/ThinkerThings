@@ -12,17 +12,18 @@ using Microsoft.AspNetCore.WebSockets;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ThinkerThings.API.RTC;
+using ThinkerThings.API.RTC.WebSocketHub.Devices;
 
 namespace ThinkerThings.API.Middleware
 {
     public class WebSocketHandleMiddleware   
     {
         private readonly RequestDelegate _next;
-        private readonly WebsocketHub _websocketHub;
-        public WebSocketHandleMiddleware(RequestDelegate next,WebsocketHub hub)
+        private readonly SmartLampWebSocketHub _smartLampWebSocketHub;
+        public WebSocketHandleMiddleware(RequestDelegate next, SmartLampWebSocketHub smartLampWebSocketHub)
         {
             _next = next;
-            _websocketHub = hub;
+            _smartLampWebSocketHub = smartLampWebSocketHub;
         }
         public async Task Invoke(HttpContext context)
         {
@@ -31,10 +32,10 @@ namespace ThinkerThings.API.Middleware
             {
                 if (context.WebSockets.IsWebSocketRequest)
                 {
-                    if(endpoints[2] == "gateway")
+                    if(endpoints[2] == "smartlamp")
                     {
                         if(endpoints[3].All(char.IsDigit) == true)
-                             await _websocketHub.Connect(context,Int32.Parse(endpoints[3]));
+                             await _smartLampWebSocketHub.Connect(context,Int32.Parse(endpoints[3]));
                     }
 
                 }

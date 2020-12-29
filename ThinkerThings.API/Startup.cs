@@ -28,6 +28,8 @@ using ThinkerThings.Core.Repositories.Device;
 using ThinkerThings.Core.Repositories;
 using ThinkerThings.API.RTC;
 using ThinkerThings.API.Middleware;
+using ThinkerThings.API.RTC.SignalR;
+using ThinkerThings.API.RTC.WebSocketHub.Devices;
 
 namespace ThinkerThings.API
 {
@@ -66,6 +68,7 @@ namespace ThinkerThings.API
             services.AddScoped(typeof(IDeviceRepository<>), typeof(DeviceRepository<>));
             services.AddScoped(typeof(IService<>), typeof(Service<>));
             services.AddScoped(typeof(IDeviceService<>), typeof(DeviceService<>));
+            services.AddScoped(typeof(IDeviceService<>), typeof(DeviceService<>));
             services.AddScoped(typeof(IUserService), typeof(UserService));
             services.AddScoped(typeof(INetworkService), typeof(NetworkService));
             services.AddScoped(typeof(IMotionDateService), typeof(MotionDateService));
@@ -75,7 +78,7 @@ namespace ThinkerThings.API
             
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-            services.AddSingleton<WebsocketHub>();
+            services.AddSingleton<SmartLampWebSocketHub>();
             services.AddSignalR();
             services.AddDbContext<AppDbContext>(options =>
             {

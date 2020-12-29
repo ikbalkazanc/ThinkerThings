@@ -127,6 +127,41 @@ namespace ThinkerThings.DAL.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Networks",
+                columns: new[] { "Id", "Password", "SSID" },
+                values: new object[] { 1, "123", "Network" });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Mail", "Name", "NetworkId", "Password", "Surname" },
+                values: new object[] { 1, "ikbalkazanc", "ikbal", 1, "123", "Kazancı" });
+
+            migrationBuilder.InsertData(
+                table: "AirConditioners",
+                columns: new[] { "Id", "FanSpeed", "Tempature", "UserId", "isOpen" },
+                values: new object[] { 1, 0, 0, 1, false });
+
+            migrationBuilder.InsertData(
+                table: "MotionSensors",
+                columns: new[] { "Id", "UserId", "isAnyMotion" },
+                values: new object[] { 1, 1, false });
+
+            migrationBuilder.InsertData(
+                table: "SmartLamp",
+                columns: new[] { "Id", "UserId", "isOpen" },
+                values: new object[] { 1, 1, false });
+
+            migrationBuilder.InsertData(
+                table: "MotionDates",
+                columns: new[] { "Id", "Date", "MotionSensorId" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2020, 12, 29, 2, 4, 14, 610, DateTimeKind.Local).AddTicks(3168), 1 },
+                    { 2, new DateTime(2020, 12, 29, 2, 4, 14, 611, DateTimeKind.Local).AddTicks(5971), 1 },
+                    { 3, new DateTime(2020, 12, 29, 2, 4, 14, 611, DateTimeKind.Local).AddTicks(5987), 1 }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AirConditioners_UserId",
                 table: "AirConditioners",
