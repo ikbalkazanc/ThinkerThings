@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using ThinkerThings.API.Models;
 using ThinkerThings.API.RTC.SignalR;
@@ -18,11 +16,19 @@ namespace ThinkerThings.API.RTC.WebSocketHub
         }
         public async Task ReceiveNewMessage(string message)
         {
-            //var data = JsonConvert.DeserializeObject<RtcMessage>(message);
-            if("data.Command.type" == "BUTTON_TOGGLE")
+            RtcMessage data;
+            try
             {
-                
-            } 
+                data = JsonConvert.DeserializeObject<RtcMessage>(message);
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
+            if ("data.Command.type" == "BUTTON_TOGGLE")
+            {
+
+            }
         }
     }
 }

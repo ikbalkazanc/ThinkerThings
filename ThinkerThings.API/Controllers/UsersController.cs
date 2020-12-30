@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using ThinkerThings.Core.DTOs.UserDto;
 using ThinkerThings.Core.Entities;
 using ThinkerThings.Core.Services;
@@ -30,7 +27,7 @@ namespace ThinkerThings.API.Controllers
             return Ok(users);
         }
         [HttpGet("getWithMail")]
-        public async Task<IActionResult> GetUser(string mail,string password)
+        public async Task<IActionResult> GetUser(string mail, string password)
         {
             var user = await _userService.Where(user => user.Mail == mail && user.Password == password);
             if (user.Count() > 0)
@@ -41,7 +38,6 @@ namespace ThinkerThings.API.Controllers
         [HttpGet("sea")]
         public IActionResult sea()
         {
-            
             return Ok("iyi");
         }
 

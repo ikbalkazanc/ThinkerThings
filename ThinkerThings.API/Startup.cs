@@ -1,35 +1,28 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.EntityFrameworkCore;
+using ThinkerThings.API.Middleware;
+using ThinkerThings.API.RTC.SignalR;
+using ThinkerThings.API.RTC.WebSocketHub.Devices;
 using ThinkerThings.BLL.Common;
 using ThinkerThings.BLL.Service;
 using ThinkerThings.BLL.Service.Devices;
+using ThinkerThings.Core.Repositories;
 using ThinkerThings.Core.Repositories.Common;
+using ThinkerThings.Core.Repositories.Device;
 using ThinkerThings.Core.Services;
 using ThinkerThings.Core.Services.Common;
 using ThinkerThings.Core.Services.Device;
 using ThinkerThings.Core.UnitOfWork;
 using ThinkerThings.DAL;
 using ThinkerThings.DAL.Repositories.Common;
-using ThinkerThings.DAL.UnitOfWork;
 using ThinkerThings.DAL.Repositories.Devices;
-using ThinkerThings.Core.Repositories.Device;
-using ThinkerThings.Core.Repositories;
-using ThinkerThings.API.RTC;
-using ThinkerThings.API.Middleware;
-using ThinkerThings.API.RTC.SignalR;
-using ThinkerThings.API.RTC.WebSocketHub.Devices;
+using ThinkerThings.DAL.UnitOfWork;
 
 namespace ThinkerThings.API
 {
@@ -75,10 +68,10 @@ namespace ThinkerThings.API
             services.AddScoped(typeof(IAirConditionerService), typeof(AirConditionerService));
             services.AddScoped(typeof(IMotionSensorService), typeof(MotionSensorService));
             services.AddScoped(typeof(ISmartLampService), typeof(SmartLampService));
-            
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-            services.AddSingleton<SmartLampWebSocketHub>();
+            services.AddScoped<SmartLampWebSocketHub>();
+
             services.AddSignalR();
             services.AddDbContext<AppDbContext>(options =>
             {
@@ -102,13 +95,12 @@ namespace ThinkerThings.API
 
             };
             app.UseRouting();
-            
             app.UseAuthorization();
             app.UseOpenApi();
             app.UseWebSockets();
             app.UseMiddleware<WebSocketHandleMiddleware>();
             app.UseCors("HubPolicy");
-            app.UseCors();    
+            app.UseCors();
             app.UseSwaggerUi3();
             app.UseEndpoints(endpoints =>
             {

@@ -17,12 +17,12 @@ namespace ThinkerThings.API.RTC.WebSocketHub
 {
     public class WebSocketDevice : IWebSocketDevice
     {
-        private readonly WsListener wsListener;
-        public ConcurrentDictionary<int, WebSocket> WebSocketsClients = new ConcurrentDictionary<int, WebSocket>();
+        private readonly WebSocketListener wsListener;
+        public static ConcurrentDictionary<int, WebSocket> WebSocketsClients = new ConcurrentDictionary<int, WebSocket>();
         private readonly IHubContext<MyHub> _hub;
         public WebSocketDevice(IHubContext<MyHub> hub)
         {
-            wsListener = new WsListener(hub);
+            wsListener = new WebSocketListener(hub);
             _hub = hub;
         }
         public async Task SendAll(string message)

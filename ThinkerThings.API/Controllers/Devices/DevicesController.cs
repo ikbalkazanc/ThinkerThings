@@ -1,9 +1,5 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using ThinkerThings.Core.Services.Device;
 
@@ -25,10 +21,10 @@ namespace ThinkerThings.API.Controllers.Devices
             _motionSensorService = motionSensorService;
         }
         [HttpGet("getAllDeviceByUserId/{id}")]
-        public  async Task<IActionResult> GetAllDevicesByUserId(int id)
+        public async Task<IActionResult> GetAllDevicesByUserId(int id)
         {
             Models.Devices devices = new Models.Devices();
-            devices.SmartLamps =  await _smartLampService.GetDevicesByUserId(id);
+            devices.SmartLamps = await _smartLampService.GetDevicesByUserId(id);
             devices.MotionSensors = await _motionSensorService.GetDevicesByUserId(id);
             devices.AirConditioners = await _airConditionerService.GetDevicesByUserId(id);
             return Ok(devices);

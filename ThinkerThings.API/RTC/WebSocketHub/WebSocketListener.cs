@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,10 +8,10 @@ using ThinkerThings.API.RTC.SignalR;
 
 namespace ThinkerThings.API.RTC.WebSocketHub
 {
-    public class WsListener
+    public class WebSocketListener
     {
         private readonly WebSocketMessageManager _manager;
-        public WsListener(IHubContext<MyHub> hub)
+        public WebSocketListener(IHubContext<MyHub> hub)
         {
             _manager = new WebSocketMessageManager(hub);
         }
@@ -30,7 +28,7 @@ namespace ThinkerThings.API.RTC.WebSocketHub
             }
             await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
         }
-        public  int FindZeroIndex(byte[] buffer)
+        public int FindZeroIndex(byte[] buffer)
         {
             int i = 0;
             while (buffer[i] != 0)

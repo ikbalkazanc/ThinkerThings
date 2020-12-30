@@ -1,12 +1,8 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using ThinkerThings.API.Models;
-using ThinkerThings.API.RTC.WebSocketHub;
 using ThinkerThings.API.RTC.WebSocketHub.Devices;
 
 namespace ThinkerThings.API.RTC.SignalR
@@ -15,7 +11,7 @@ namespace ThinkerThings.API.RTC.SignalR
     {
         private static ConcurrentDictionary<string, int> UserClients = new ConcurrentDictionary<string, int>();
         private readonly SmartLampWebSocketHub _smartLampWebSocketHub;
-        public MyHub(SmartLampWebSocketHub  smartLampWebSocketHub)
+        public MyHub(SmartLampWebSocketHub smartLampWebSocketHub)
         {
             _smartLampWebSocketHub = smartLampWebSocketHub;
         }
@@ -37,11 +33,11 @@ namespace ThinkerThings.API.RTC.SignalR
             UserClients.TryAdd(Context.ConnectionId, -1);
             return base.OnConnectedAsync();
         }
-       
+
         public override Task OnDisconnectedAsync(Exception exception)
         {
             int i = -1;
-            UserClients.TryRemove(Context.ConnectionId,out i);
+            UserClients.TryRemove(Context.ConnectionId, out i);
             return base.OnDisconnectedAsync(exception);
         }
 
