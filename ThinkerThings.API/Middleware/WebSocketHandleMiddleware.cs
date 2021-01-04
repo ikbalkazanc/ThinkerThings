@@ -15,7 +15,7 @@ namespace ThinkerThings.API.Middleware
             _next = next;
 
         }
-        public async Task Invoke(HttpContext context, SmartLampWebSocketHub _smartLampWebSocketHub)
+        public async Task Invoke(HttpContext context, SmartLampWebSocketHub _smartLampWebSocketHub, AirConditionerWebSocketHub _airConditionerWebSocketHub)
         {
             string[] endpoints = context.Request.Path.ToString().Split('/');
             if (endpoints[1] == "ws")
@@ -26,6 +26,11 @@ namespace ThinkerThings.API.Middleware
                     {
                         if (endpoints[3].All(char.IsDigit) == true)
                             await _smartLampWebSocketHub.Connect(context, Int32.Parse(endpoints[3]));
+                    }
+                    if (endpoints[2] == "airconditioner")
+                    {
+                        if (endpoints[3].All(char.IsDigit) == true)
+                            await _airConditionerWebSocketHub.Connect(context, Int32.Parse(endpoints[3]));
                     }
 
                 }

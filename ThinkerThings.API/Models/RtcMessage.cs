@@ -7,8 +7,11 @@ namespace ThinkerThings.API.Models
 {
     public class RtcMessage
     {
+        public RtcMessage()
+        {
+            Command = new Command();
+        }
         public string signalrConnectionId { get; set; }
-        public string DeviceType { get; set; }
         public int DeviceId { get; set; }
         public Command Command { get; set; }
     }

@@ -71,6 +71,7 @@ namespace ThinkerThings.API
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddScoped<SmartLampWebSocketHub>();
+            services.AddScoped<AirConditionerWebSocketHub>();
 
             services.AddSignalR();
             services.AddDbContext<AppDbContext>(options =>
@@ -91,7 +92,7 @@ namespace ThinkerThings.API
             app.UseHttpsRedirection();
             var webSocketOptions = new WebSocketOptions()
             {
-                KeepAliveInterval = TimeSpan.FromSeconds(120)
+                KeepAliveInterval = TimeSpan.FromSeconds(1024)
 
             };
             app.UseRouting();
@@ -105,8 +106,11 @@ namespace ThinkerThings.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<MyHub>("/MyHub");
+                endpoints.MapHub<SmartLampHub>("/smartlamp");
+                endpoints.MapHub<AirConditionerHub>("/airconditioner");
             });
         }
     }
 }
+
+

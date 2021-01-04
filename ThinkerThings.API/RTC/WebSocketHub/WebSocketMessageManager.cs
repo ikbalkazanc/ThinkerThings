@@ -9,10 +9,12 @@ namespace ThinkerThings.API.RTC.WebSocketHub
 {
     public class WebSocketMessageManager
     {
-        private readonly IHubContext<MyHub> _hub;
-        public WebSocketMessageManager(IHubContext<MyHub> hub)
+        private readonly IHubContext<AirConditionerHub> _airConditionerHub;
+        private readonly IHubContext<SmartLampHub> _smartLampHub;
+        public WebSocketMessageManager(IHubContext<SmartLampHub> smartLampHub, IHubContext<AirConditionerHub> airConditionerHub)
         {
-            _hub = hub;
+            _airConditionerHub = airConditionerHub;
+            _smartLampHub = smartLampHub;
         }
         public async Task ReceiveNewMessage(string message)
         {
@@ -20,15 +22,17 @@ namespace ThinkerThings.API.RTC.WebSocketHub
             try
             {
                 data = JsonConvert.DeserializeObject<RtcMessage>(message);
+
+                if (data.Command.type == "AIRCONDITIONER_GET_TEMPATURE")
+                {
+                    await _airConditionerHub.Clients.Client(data.signalrConnectionId).SendAsync("tempature", data.Command.tempature);
+                }
             }
-            catch (Exception ex)
+            catch
             {
                 return;
             }
-            if ("data.Command.type" == "BUTTON_TOGGLE")
-            {
 
-            }
         }
     }
 }

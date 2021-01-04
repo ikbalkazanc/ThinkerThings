@@ -1,30 +1,18 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.SignalR;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.WebSockets;
 using System.Text;
-using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
-using ThinkerThings.API.Models;
-using ThinkerThings.API.RTC.SignalR;
 
 namespace ThinkerThings.API.RTC.WebSocketHub
 {
     public class WebSocketDevice : IWebSocketDevice
     {
-        private readonly WebSocketListener wsListener;
-        public static ConcurrentDictionary<int, WebSocket> WebSocketsClients = new ConcurrentDictionary<int, WebSocket>();
-        private readonly IHubContext<MyHub> _hub;
-        public WebSocketDevice(IHubContext<MyHub> hub)
-        {
-            wsListener = new WebSocketListener(hub);
-            _hub = hub;
-        }
+        public static Dictionary<int, WebSocket> WebSocketsClients = new Dictionary<int, WebSocket>();
+        protected WebSocketMessageManager _manager;
         public async Task SendAll(string message)
         {
             var buffer = new byte[(message.Length + 1) * 4];
@@ -45,12 +33,40 @@ namespace ThinkerThings.API.RTC.WebSocketHub
             }
         }
 
+        private async Task Listener(int deviceId, WebSocket webSocket)
+        {
+            var buffer = new byte[50];
+            WebSocketReceiveResult result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+            await _manager.ReceiveNewMessage(System.Text.Encoding.UTF8.GetString(buffer).Substring(0, FindZeroIndex(buffer)));
+            await webSocket.SendAsync(new ArraySegment<byte>(buffer, 0, buffer.Length), WebSocketMessageType.Text, true, CancellationToken.None);
+            while (!result.CloseStatus.HasValue)
+            {
+                buffer = new byte[50];
+                result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+                await webSocket.SendAsync(new ArraySegment<byte>(buffer, 0, buffer.Length), WebSocketMessageType.Text, true, CancellationToken.None);
+                await _manager.ReceiveNewMessage(System.Text.Encoding.UTF8.GetString(buffer).Substring(0, FindZeroIndex(buffer)));
+            }
+            await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
+            await Disconnect(deviceId);
+        }
+        private int FindZeroIndex(byte[] buffer)
+        {
+            int i = 0;
+            while (buffer[i] != 0)
+                i++;
+            return i;
+        }
         public virtual async Task Connect(HttpContext context, int DeviceId)
         {
             WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
-            WebSocketsClients.TryAdd(DeviceId, webSocket);
+            var toBeAdd = WebSocketsClients.FirstOrDefault(x => x.Key == DeviceId);
+            if (toBeAdd.Value != null)
+            {
+                WebSocketsClients.Remove(DeviceId);
+            }
+            WebSocketsClients.Add(DeviceId, webSocket);
             await OnWebSocketConnectedAsync();
-            await wsListener.Listener(context, webSocket);
+            await Listener(DeviceId, webSocket);
 
         }
         public virtual async Task<bool> Disconnect(int id)
@@ -58,8 +74,7 @@ namespace ThinkerThings.API.RTC.WebSocketHub
             var toBeRemoved = WebSocketsClients.FirstOrDefault(x => x.Key == id);
             if (toBeRemoved.Value != null)
             {
-                await toBeRemoved.Value.CloseAsync(WebSocketCloseStatus.Empty, "close", CancellationToken.None);
-                WebSocketsClients.TryRemove(toBeRemoved);
+                WebSocketsClients.Remove(id);
                 await OnWebSocketDisconnectedAsync();
                 return true;
             }

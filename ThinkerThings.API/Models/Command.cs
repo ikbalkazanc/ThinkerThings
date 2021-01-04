@@ -10,5 +10,8 @@ namespace ThinkerThings.API.Models
         public string type { get; set; }
         public int buttonNumber { get; set; }
         public bool value { get; set; }
+        public double tempature { get; set; }
+        public int speed { get; set; }
+
     }
 }

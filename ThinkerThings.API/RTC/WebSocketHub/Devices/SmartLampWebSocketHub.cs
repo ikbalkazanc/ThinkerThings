@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.WebSockets;
 using System.Text;
@@ -10,25 +9,30 @@ using System.Threading;
 using System.Threading.Tasks;
 using ThinkerThings.API.Models;
 using ThinkerThings.API.RTC.SignalR;
+using ThinkerThings.API.RTC.WebSocketHub.Contracts;
 using ThinkerThings.Core.Services.Device;
 
 namespace ThinkerThings.API.RTC.WebSocketHub.Devices
 {
-    public class SmartLampWebSocketHub : WebSocketDevice
+    public class SmartLampWebSocketHub : WebSocketDevice, ISmartLampWebSocketHub
     {
         private readonly ISmartLampService _smartLampService;
-        public SmartLampWebSocketHub(IHubContext<MyHub> hub, ISmartLampService smartLampService) : base(hub)
+        private readonly IHubContext<SmartLampHub> _smartLampHub;
+        public SmartLampWebSocketHub(IHubContext<SmartLampHub> hubContext, ISmartLampService smartLampService)
         {
+            _smartLampHub = hubContext;
             _smartLampService = smartLampService;
+            _manager = new WebSocketMessageManager(hubContext);
         }
-        public async Task ToggleLamp(RtcMessage command)
+        public async Task ToggleLamp(RtcMessage message)
         {
-            var websocket = WebSocketsClients.FirstOrDefault(x => x.Key == command.DeviceId);
+            var websocket = WebSocketsClients.FirstOrDefault(x => x.Key == message.DeviceId);
             if (websocket.Value != null)
             {
-                command.Command.type = "BUTTON_TOGGLE";
-                var message = JsonConvert.SerializeObject(command);
-                var buffer = Encoding.ASCII.GetBytes(message);
+                message.Command.type = "BUTTON_TOGGLE";
+                var command = JsonConvert.SerializeObject(message);
+                var buffer = Encoding.ASCII.GetBytes(command);
+
                 await websocket.Value.SendAsync(new ArraySegment<byte>(buffer, 0, buffer.Length), WebSocketMessageType.Text, true, CancellationToken.None);
             }
         }
