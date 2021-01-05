@@ -7,6 +7,7 @@ namespace ThinkerThings.Core.DTOs.MotionDateDto
 {
     public class MotionDateDto : BaseDTO
     {
+        public DateTime Date { get; set; }
         public int MotionSensorId { get; set; }
     }
 }

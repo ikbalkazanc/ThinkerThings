@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using ThinkerThings.BLL.Common;
 using ThinkerThings.Core.Entities;
@@ -10,7 +9,7 @@ using ThinkerThings.Core.UnitOfWork;
 
 namespace ThinkerThings.BLL.Service
 {
-    public class MotionDateService : Service<MotionDate>,IMotionDateService
+    public class MotionDateService : Service<MotionDate>, IMotionDateService
     {
         public MotionDateService(IUnitOfWork unitofwork, IRepository<MotionDate> repository) : base(unitofwork, repository)
         {
@@ -20,6 +19,11 @@ namespace ThinkerThings.BLL.Service
         {
             entity.Date = DateTime.Now;
             return base.AddAsync(entity);
+        }
+
+        public async Task<IEnumerable<MotionDate>> GetSensorDatesByUserId(int id)
+        {
+            return await _repository.Where(x => x.MotionSensorId == id);
         }
     }
 }

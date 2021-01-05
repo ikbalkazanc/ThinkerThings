@@ -41,6 +41,7 @@ namespace ThinkerThings.API.Middleware
             }
             else
             {
+                context.Response.StatusCode = 400;
                 await _next(context);
             }
         }

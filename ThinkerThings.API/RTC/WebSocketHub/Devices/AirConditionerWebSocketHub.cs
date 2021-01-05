@@ -18,11 +18,11 @@ namespace ThinkerThings.API.RTC.WebSocketHub.Devices
     {
         private readonly IAirConditionerService _airConditionerService;
         private readonly IHubContext<AirConditionerHub> _airConditionerHub;
-        public AirConditionerWebSocketHub(IHubContext<AirConditionerHub> hubContext, IAirConditionerService smartLampService)
+        public AirConditionerWebSocketHub(IHubContext<AirConditionerHub> conditionerHubContext, IHubContext<SmartLampHub> lampHubContext, ISmartLampService smartLampService, IAirConditionerService airConditionerService)
         {
-            _airConditionerHub = hubContext;
-            _airConditionerService = smartLampService;
-            //_manager = new WebSocketMessageManager(hubContext);
+            _airConditionerHub = conditionerHubContext;
+            _airConditionerService = airConditionerService;
+            _manager = new WebSocketMessageManager(lampHubContext, conditionerHubContext);
         }
         public async Task GetTempature(RtcMessage message)
         {

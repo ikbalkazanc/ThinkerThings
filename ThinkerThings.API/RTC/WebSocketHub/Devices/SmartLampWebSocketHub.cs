@@ -18,11 +18,11 @@ namespace ThinkerThings.API.RTC.WebSocketHub.Devices
     {
         private readonly ISmartLampService _smartLampService;
         private readonly IHubContext<SmartLampHub> _smartLampHub;
-        public SmartLampWebSocketHub(IHubContext<SmartLampHub> hubContext, ISmartLampService smartLampService)
+        public SmartLampWebSocketHub(IHubContext<AirConditionerHub> conditionerHubContext, IHubContext<SmartLampHub> lampHubContext, ISmartLampService smartLampService, IAirConditionerService airConditionerService)
         {
-            _smartLampHub = hubContext;
+            _smartLampHub = lampHubContext;
             _smartLampService = smartLampService;
-            _manager = new WebSocketMessageManager(hubContext);
+            _manager = new WebSocketMessageManager(lampHubContext, conditionerHubContext);
         }
         public async Task ToggleLamp(RtcMessage message)
         {
