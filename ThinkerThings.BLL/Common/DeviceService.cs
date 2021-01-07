@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using ThinkerThings.Core.Common;
 using ThinkerThings.Core.Repositories.Common;
@@ -14,6 +13,21 @@ namespace ThinkerThings.BLL.Common
         public DeviceService(IUnitOfWork unitofwork, IRepository<TDevice> repository) : base(unitofwork, repository)
         {
         }
+
+        public async Task Alive(int id)
+        {
+            var device = await _repository.GetByIdAsync(id);
+            device.isAlive = true;
+            _repository.Update(device);
+        }
+
+        public async Task Dead(int id)
+        {
+            var device = await _repository.GetByIdAsync(id);
+            device.isAlive = false;
+            _repository.Update(device);
+        }
+
         public async Task<IEnumerable<TDevice>> GetDevicesByUserId(int id)
         {
             var devices = await _repository.Where(x => x.UserId == id);

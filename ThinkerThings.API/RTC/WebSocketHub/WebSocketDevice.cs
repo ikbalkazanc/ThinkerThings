@@ -35,15 +35,12 @@ namespace ThinkerThings.API.RTC.WebSocketHub
 
         private async Task Listener(int deviceId, WebSocket webSocket)
         {
-            var buffer = new byte[50];
+            var buffer = new byte[1024];
             WebSocketReceiveResult result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
             await _manager.ReceiveNewMessage(System.Text.Encoding.UTF8.GetString(buffer).Substring(0, FindZeroIndex(buffer)));
-            await webSocket.SendAsync(new ArraySegment<byte>(buffer, 0, buffer.Length), WebSocketMessageType.Text, true, CancellationToken.None);
             while (!result.CloseStatus.HasValue)
             {
-                buffer = new byte[50];
                 result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-                await webSocket.SendAsync(new ArraySegment<byte>(buffer, 0, buffer.Length), WebSocketMessageType.Text, true, CancellationToken.None);
                 await _manager.ReceiveNewMessage(System.Text.Encoding.UTF8.GetString(buffer).Substring(0, FindZeroIndex(buffer)));
             }
             await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
@@ -69,7 +66,7 @@ namespace ThinkerThings.API.RTC.WebSocketHub
             await Listener(DeviceId, webSocket);
 
         }
-        public virtual async Task<bool> Disconnect(int id)
+        public async Task<bool> Disconnect(int id)
         {
             var toBeRemoved = WebSocketsClients.FirstOrDefault(x => x.Key == id);
             if (toBeRemoved.Value != null)

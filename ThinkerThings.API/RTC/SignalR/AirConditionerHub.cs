@@ -26,6 +26,12 @@ namespace ThinkerThings.API.RTC.SignalR
             newMessage = JsonConvert.DeserializeObject<RtcMessage>(message);
             await _airConditionerWebSocketHub.SetSpeed(newMessage);
         }
+        public async Task GetSpeed(string message)
+        {
+            RtcMessage newMessage = new RtcMessage();
+            newMessage = JsonConvert.DeserializeObject<RtcMessage>(message);
+            await _airConditionerWebSocketHub.GetSpeed(newMessage);
+        }
 
         public async Task ToggleAirConditioner(string message)
         {

@@ -9,6 +9,7 @@ namespace ThinkerThings.API.RTC.SignalR.Contracts
     {
         Task ToggleAirConditioner(string message);
         Task GetTempature(string message);
+        Task GetSpeed(string message);
         Task SetSpeed(string message);
     }
 }

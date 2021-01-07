@@ -47,6 +47,17 @@ namespace ThinkerThings.API.RTC.WebSocketHub.Devices
                 await websocket.Value.SendAsync(new ArraySegment<byte>(buffer, 0, buffer.Length), WebSocketMessageType.Text, true, CancellationToken.None);
             }
         }
+        public async Task GetSpeed(RtcMessage message)
+        {
+            var websocket = WebSocketsClients.FirstOrDefault(x => x.Key == message.DeviceId);
+            if (websocket.Value != null)
+            {
+                message.Command.type = "AIRCONDITIONER_GET_SPEED";
+                var command = JsonConvert.SerializeObject(message);
+                var buffer = Encoding.ASCII.GetBytes(command);
+                await websocket.Value.SendAsync(new ArraySegment<byte>(buffer, 0, buffer.Length), WebSocketMessageType.Text, true, CancellationToken.None);
+            }
+        }
 
         public async Task ToggleAirConditioner(RtcMessage message)
         {
@@ -63,8 +74,15 @@ namespace ThinkerThings.API.RTC.WebSocketHub.Devices
         {
             var lamp = await _airConditionerService.GetByIdAsync(DeviceId);
             if (lamp != null)
+            {
+                _airConditionerService.Alive(DeviceId);//burayı sor
                 await base.Connect(context, DeviceId);
-
+                await DisconnectWebsocket(DeviceId);
+            }
+        }
+        public async Task DisconnectWebsocket(int DeviceId)
+        {
+            await _airConditionerService.Dead(DeviceId);
         }
 
     }
