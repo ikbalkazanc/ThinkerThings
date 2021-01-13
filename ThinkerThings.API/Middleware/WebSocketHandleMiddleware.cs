@@ -17,33 +17,31 @@ namespace ThinkerThings.API.Middleware
         }
         public async Task Invoke(HttpContext context, SmartLampWebSocketHub _smartLampWebSocketHub, AirConditionerWebSocketHub _airConditionerWebSocketHub)
         {
-            if (context.WebSockets.IsWebSocketRequest)
+            string[] endpoints = context.Request.Path.ToString().Split('/');
+            if (endpoints[1] == "ws")
             {
-                string[] endpoints = context.Request.Path.ToString().Split('/');
-                if (endpoints[1] == "ws")
+                if (context.WebSockets.IsWebSocketRequest)
                 {
-                    if (endpoints[3].All(char.IsDigit) == true)
+                    if (endpoints[2] == "smartlamp")
                     {
-                        if (endpoints[2] == "smartlamp")
-                        {
+                        if (endpoints[3].All(char.IsDigit) == true)
                             await _smartLampWebSocketHub.Connect(context, Int32.Parse(endpoints[3]));
-                        }
-                        else if (endpoints[2] == "airconditioner")
-                        {
-                            await _airConditionerWebSocketHub.Connect(context, Int32.Parse(endpoints[3]));
-                        }
-                        else
-                            context.Response.StatusCode = 400;
                     }
-                    else
-                        context.Response.StatusCode = 400;
+                    if (endpoints[2] == "airconditioner")
+                    {
+                        if (endpoints[3].All(char.IsDigit) == true)
+                            await _airConditionerWebSocketHub.Connect(context, Int32.Parse(endpoints[3]));
+                    }
 
                 }
                 else
-                    await _next(context);
+                {
+                    context.Response.StatusCode = 400;
+                }
             }
             else
             {
+                context.Response.StatusCode = 400;
                 await _next(context);
             }
         }

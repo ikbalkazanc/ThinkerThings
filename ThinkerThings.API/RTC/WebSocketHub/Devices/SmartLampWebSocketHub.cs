@@ -40,17 +40,8 @@ namespace ThinkerThings.API.RTC.WebSocketHub.Devices
         {
             var lamp = await _smartLampService.GetByIdAsync(DeviceId);
             if (lamp != null)
-            {
-                await _smartLampService.Alive(DeviceId);
                 await base.Connect(context, DeviceId);
-                await Disconnect(DeviceId);
-            }
 
-
-        }
-        public async Task DisconnectWebsocket(int DeviceId)
-        {
-            await _smartLampService.Dead(DeviceId);
         }
 
     }

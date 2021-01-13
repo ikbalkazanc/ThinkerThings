@@ -11,6 +11,5 @@ namespace ThinkerThings.API.RTC.WebSocketHub.Contracts
         Task ToggleAirConditioner(RtcMessage message);
         Task GetTempature(RtcMessage message);
         Task SetSpeed(RtcMessage message);
-        Task GetSpeed(RtcMessage message);
     }
 }

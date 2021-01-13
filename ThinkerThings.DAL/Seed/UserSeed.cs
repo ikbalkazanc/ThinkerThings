@@ -1,4 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Text;
 using ThinkerThings.Core.Entities;
 
 namespace ThinkerThings.DAL.Seed
@@ -13,8 +16,8 @@ namespace ThinkerThings.DAL.Seed
         public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<User> builder)
         {
             builder.HasData(
-                new User { Id = 1, Name = "ikbal", Surname = "Kazancı", Password = "123", NetworkId = _ids[0], Mail = "ikbalkazanc" }
+                new User { Id = 1, Name = "ikbal",Surname = "Kazancı",Password="123",NetworkId=_ids[0],Mail="ikbalkazanc" }
                 );
-        }
+        } 
     }
 }

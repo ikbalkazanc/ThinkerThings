@@ -27,10 +27,6 @@ namespace ThinkerThings.API.RTC.WebSocketHub
                 {
                     await _airConditionerHub.Clients.Client(data.signalrConnectionId).SendAsync("tempature", data.Command.tempature);
                 }
-                if (data.Command.type == "AIRCONDITIONER_GET_SPEED")
-                {
-                    await _airConditionerHub.Clients.Client(data.signalrConnectionId).SendAsync("speed", data.Command.speed);
-                }
             }
             catch
             {

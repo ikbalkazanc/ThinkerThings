@@ -35,9 +35,6 @@ namespace ThinkerThings.DAL.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
-                    b.Property<bool>("isAlive")
-                        .HasColumnType("boolean");
-
                     b.Property<bool>("isOpen")
                         .HasColumnType("boolean");
 
@@ -54,7 +51,6 @@ namespace ThinkerThings.DAL.Migrations
                             FanSpeed = 0,
                             Tempature = 0,
                             UserId = 1,
-                            isAlive = false,
                             isOpen = false
                         });
                 });
@@ -68,9 +64,6 @@ namespace ThinkerThings.DAL.Migrations
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
-
-                    b.Property<bool>("isAlive")
-                        .HasColumnType("boolean");
 
                     b.Property<bool>("isAnyMotion")
                         .HasColumnType("boolean");
@@ -86,7 +79,6 @@ namespace ThinkerThings.DAL.Migrations
                         {
                             Id = 1,
                             UserId = 1,
-                            isAlive = false,
                             isAnyMotion = false
                         });
                 });
@@ -100,9 +92,6 @@ namespace ThinkerThings.DAL.Migrations
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
-
-                    b.Property<bool>("isAlive")
-                        .HasColumnType("boolean");
 
                     b.Property<bool>("isOpen")
                         .HasColumnType("boolean");
@@ -118,7 +107,6 @@ namespace ThinkerThings.DAL.Migrations
                         {
                             Id = 1,
                             UserId = 1,
-                            isAlive = false,
                             isOpen = false
                         });
                 });
@@ -146,19 +134,19 @@ namespace ThinkerThings.DAL.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2021, 1, 7, 3, 36, 43, 735, DateTimeKind.Local).AddTicks(8332),
+                            Date = new DateTime(2020, 12, 29, 2, 4, 14, 610, DateTimeKind.Local).AddTicks(3168),
                             MotionSensorId = 1
                         },
                         new
                         {
                             Id = 2,
-                            Date = new DateTime(2021, 1, 7, 3, 36, 43, 736, DateTimeKind.Local).AddTicks(9154),
+                            Date = new DateTime(2020, 12, 29, 2, 4, 14, 611, DateTimeKind.Local).AddTicks(5971),
                             MotionSensorId = 1
                         },
                         new
                         {
                             Id = 3,
-                            Date = new DateTime(2021, 1, 7, 3, 36, 43, 736, DateTimeKind.Local).AddTicks(9170),
+                            Date = new DateTime(2020, 12, 29, 2, 4, 14, 611, DateTimeKind.Local).AddTicks(5987),
                             MotionSensorId = 1
                         });
                 });

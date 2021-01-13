@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Text;
 using ThinkerThings.Core.Entities;
 
 namespace ThinkerThings.DAL.Seed
@@ -14,7 +16,7 @@ namespace ThinkerThings.DAL.Seed
         public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<MotionDate> builder)
         {
             builder.HasData(
-                new MotionDate { Id = 1, Date = DateTime.Now, MotionSensorId = _ids[0] },
+                new MotionDate { Id = 1,Date = DateTime.Now,MotionSensorId = _ids[0]},
                 new MotionDate { Id = 2, Date = DateTime.Now, MotionSensorId = _ids[0] },
                 new MotionDate { Id = 3, Date = DateTime.Now, MotionSensorId = _ids[0] }
                 );
