@@ -16,7 +16,7 @@ namespace ThinkerThings.DAL.Seed.Devices
         public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<MotionSensor> builder)
         {
             builder.HasData(
-                new MotionSensor { Id = 1, UserId = _ids[0], isAnyMotion=false}
+                new MotionSensor { Id = 1, UserId = _ids[0], isAnyMotion = false, isAlive = false }
                 );
         }
     }

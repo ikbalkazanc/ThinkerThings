@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
@@ -18,11 +19,13 @@ namespace ThinkerThings.API.RTC.WebSocketHub.Devices
     {
         private readonly ISmartLampService _smartLampService;
         private readonly IHubContext<SmartLampHub> _smartLampHub;
-        public SmartLampWebSocketHub(IHubContext<AirConditionerHub> conditionerHubContext, IHubContext<SmartLampHub> lampHubContext, ISmartLampService smartLampService, IAirConditionerService airConditionerService)
+        private readonly ILogger<SmartLampWebSocketHub> _logger;
+        public SmartLampWebSocketHub(IHubContext<AirConditionerHub> conditionerHubContext, ILogger<SmartLampWebSocketHub> logger, IHubContext<SmartLampHub> lampHubContext, ISmartLampService smartLampService, IAirConditionerService airConditionerService)
         {
             _smartLampHub = lampHubContext;
             _smartLampService = smartLampService;
             _manager = new WebSocketMessageManager(lampHubContext, conditionerHubContext);
+            _logger = logger;
         }
         public async Task ToggleLamp(RtcMessage message)
         {
@@ -38,10 +41,30 @@ namespace ThinkerThings.API.RTC.WebSocketHub.Devices
         }
         public override async Task Connect(HttpContext context, int DeviceId)
         {
+            _logger.LogWarning("Connect to number " + DeviceId + " smart lamp");
+            string devices = "";
+            foreach (var item in WebSocketsClients)
+            {
+                devices += item.Key.ToString() + " - ";
+            }
+            _logger.LogWarning("Devices :  " + devices);
             var lamp = await _smartLampService.GetByIdAsync(DeviceId);
+            await _smartLampService.Alive(DeviceId);
             if (lamp != null)
                 await base.Connect(context, DeviceId);
 
+        }
+        public override Task<bool> Disconnect(int id)
+        {
+            _logger.LogWarning("Disconnect to number " + id + " smart lamp");
+            string devices = "";
+            foreach(var item in WebSocketsClients)
+            {
+                devices += item.Key.ToString() + " - ";
+            }
+            _logger.LogWarning("Devices :  " + devices);
+            _smartLampService.Kill(id);
+            return base.Disconnect(id);
         }
 
     }

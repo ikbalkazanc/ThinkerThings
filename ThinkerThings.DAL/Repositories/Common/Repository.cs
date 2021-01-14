@@ -63,5 +63,15 @@ namespace ThinkerThings.DAL.Repositories.Common
         {
             return await _dbset.Where(predicate).ToListAsync();
         }
+
+        public async Task<TEntity> SingleWhere(Expression<Func<TEntity, bool>> predicate)
+        {
+            var users = await _dbset.Where(predicate).ToListAsync();
+            foreach (var user in users)
+            {
+                return user;
+            }
+            return null;
+        }
     }
 }

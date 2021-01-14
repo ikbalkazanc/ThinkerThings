@@ -26,21 +26,6 @@ namespace ThinkerThings.API.Controllers
             var users = await _userService.GetAllAsync();
             return Ok(users);
         }
-        [HttpGet("getWithMail")]
-        public async Task<IActionResult> GetUser(string mail, string password)
-        {
-            var user = await _userService.Where(user => user.Mail == mail && user.Password == password);
-            if (user.Count() > 0)
-                return Ok(_mapper.Map<CreateUserDto>(user.Last()));
-            else
-                return Ok();
-        }
-        [HttpGet("sea")]
-        public IActionResult sea()
-        {
-            return Ok("iyi");
-        }
-
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateUserDto user)
         {

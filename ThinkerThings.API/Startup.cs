@@ -38,6 +38,7 @@ namespace ThinkerThings.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLogging();
             services.AddCors(options =>
             {
                 options.AddDefaultPolicy(builder =>
@@ -68,6 +69,7 @@ namespace ThinkerThings.API
             services.AddScoped(typeof(IAirConditionerService), typeof(AirConditionerService));
             services.AddScoped(typeof(IMotionSensorService), typeof(MotionSensorService));
             services.AddScoped(typeof(ISmartLampService), typeof(SmartLampService));
+            
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddScoped<SmartLampWebSocketHub>();

@@ -18,29 +18,16 @@ namespace ThinkerThings.API.Mappig
     {
         public MapProfile()
         {
-            CreateMap<CreateUserDto,User>();
-            CreateMap<User, CreateUserDto > ();
+            CreateMap<CreateUserDto, User>().ReverseMap();
+            CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<NetworkDto, Network>().ReverseMap();
+            CreateMap<MotionDate, MotionDateDto>().ReverseMap();
+            CreateMap<AirConditioner, AirConditionerCreateDto>().ReverseMap();
+            CreateMap<AirConditioner, AirConditionerDto>().ReverseMap();
+            CreateMap<SmartLamp, SmartLampDto>().ReverseMap();
+            CreateMap<MotionSensor, MotionSensorDto>().ReverseMap();
+            CreateMap<MotionSensor, MotionSensorCreateDto>().ReverseMap();
 
-            CreateMap<NetworkDto, Network>();
-            CreateMap<Network, NetworkDto>();
-
-            CreateMap<MotionDate, MotionDateDto>();
-            CreateMap<MotionDateDto, MotionDate>();
-            
-
-            CreateMap<AirConditioner, AirConditionerCreateDto>();
-            CreateMap<AirConditionerCreateDto, AirConditioner>();
-            CreateMap<AirConditioner, AirConditionerDto>();
-            CreateMap<AirConditionerDto, AirConditioner>();
-
-            CreateMap<SmartLamp, SmartLampDto>();
-            CreateMap<SmartLampDto, SmartLamp>();
-
-
-            CreateMap<MotionSensor, MotionSensorDto>();
-            CreateMap<MotionSensorDto, MotionSensor>();
-            CreateMap<MotionSensor, MotionSensorCreateDto>();
-            CreateMap<MotionSensorCreateDto, MotionSensor>();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
@@ -18,11 +19,13 @@ namespace ThinkerThings.API.RTC.WebSocketHub.Devices
     {
         private readonly IAirConditionerService _airConditionerService;
         private readonly IHubContext<AirConditionerHub> _airConditionerHub;
-        public AirConditionerWebSocketHub(IHubContext<AirConditionerHub> conditionerHubContext, IHubContext<SmartLampHub> lampHubContext, ISmartLampService smartLampService, IAirConditionerService airConditionerService)
+        private readonly ILogger<AirConditionerWebSocketHub> _logger;
+        public AirConditionerWebSocketHub(IHubContext<AirConditionerHub> conditionerHubContext, ILogger<AirConditionerWebSocketHub> logger, IHubContext<SmartLampHub> lampHubContext, ISmartLampService smartLampService, IAirConditionerService airConditionerService)
         {
             _airConditionerHub = conditionerHubContext;
             _airConditionerService = airConditionerService;
             _manager = new WebSocketMessageManager(lampHubContext, conditionerHubContext);
+            _logger = logger;
         }
         public async Task GetTempature(RtcMessage message)
         {
@@ -61,10 +64,30 @@ namespace ThinkerThings.API.RTC.WebSocketHub.Devices
         }
         public override async Task Connect(HttpContext context, int DeviceId)
         {
+            _logger.LogWarning("Connect to number " + DeviceId + " air conditioner");
+            string devices = "";
+            foreach (var item in WebSocketsClients)
+            {
+                devices += item.Key.ToString() + " - ";
+            }
+            _logger.LogWarning("Devices :  " + devices);
             var lamp = await _airConditionerService.GetByIdAsync(DeviceId);
+            await _airConditionerService.Alive(DeviceId);
             if (lamp != null)
                 await base.Connect(context, DeviceId);
 
+        }
+        public override Task<bool> Disconnect(int id)
+        {
+            _logger.LogWarning("Disonnect to number " + id + " air conditioner");
+            string devices = "";
+            foreach (var item in WebSocketsClients)
+            {
+                devices += item.Key.ToString() + " - ";
+            }
+            _logger.LogWarning("Devices :  " + devices);
+            _airConditionerService.Kill(id);
+            return base.Disconnect(id);
         }
 
     }

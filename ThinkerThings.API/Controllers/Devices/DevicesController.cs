@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using ThinkerThings.Core.Services.Device;
 
@@ -13,7 +14,7 @@ namespace ThinkerThings.API.Controllers.Devices
         private readonly IAirConditionerService _airConditionerService;
         private readonly IMotionSensorService _motionSensorService;
         private readonly IMapper _mapper;
-        public DevicesController(ISmartLampService smartLampService, IMapper mapper, IMotionSensorService motionSensorService, IAirConditionerService airConditionerService)
+        public DevicesController( ISmartLampService smartLampService, IMapper mapper, IMotionSensorService motionSensorService, IAirConditionerService airConditionerService)
         {
             _smartLampService = smartLampService;
             _mapper = mapper;

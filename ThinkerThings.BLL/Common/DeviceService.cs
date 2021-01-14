@@ -14,10 +14,33 @@ namespace ThinkerThings.BLL.Common
         public DeviceService(IUnitOfWork unitofwork, IRepository<TDevice> repository) : base(unitofwork, repository)
         {
         }
+
         public async Task<IEnumerable<TDevice>> GetDevicesByUserId(int id)
         {
             var devices = await _repository.Where(x => x.UserId == id);
             return devices;
+        }
+
+        public async Task Kill(int id)
+        {
+            var device = await _repository.SingleWhere(x => x.Id == id);
+            if (device != null)
+            {
+                device.isAlive = false;
+                _repository.Update(device);
+                await _unitOfWork.CommitAsync();
+            }
+        }
+
+        public async Task Alive(int id)
+        {
+            var device = await _repository.SingleWhere(x => x.Id == id);
+            if(device != null)
+            {
+                device.isAlive = true;
+                _repository.Update(device);
+                await _unitOfWork.CommitAsync();
+            }
         }
     }
 }

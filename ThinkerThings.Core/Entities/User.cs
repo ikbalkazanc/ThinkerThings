@@ -7,7 +7,7 @@ using ThinkerThings.Core.Entities.Devices;
 
 namespace ThinkerThings.Core.Entities
 {
-    public class User : BaseEntity 
+    public class User : BaseEntity
     {
         public string Mail { get; set; }
         public string Name { get; set; }

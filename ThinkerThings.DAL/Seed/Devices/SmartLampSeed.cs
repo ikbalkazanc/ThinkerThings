@@ -16,7 +16,7 @@ namespace ThinkerThings.DAL.Seed.Devices
         public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<SmartLamp> builder)
         {
             builder.HasData(
-                new SmartLamp { Id = 1, UserId = _ids[0], isOpen=false }
+                new SmartLamp { Id = 1, UserId = _ids[0], isOpen = false, isAlive = false }
                 );
         }
     }
