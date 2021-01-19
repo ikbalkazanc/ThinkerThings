@@ -49,22 +49,30 @@ namespace ThinkerThings.API.RTC.WebSocketHub.Devices
             }
             _logger.LogWarning("Devices :  " + devices);
             var lamp = await _smartLampService.GetByIdAsync(DeviceId);
-            await _smartLampService.Alive(DeviceId);
+
             if (lamp != null)
+            {
+                await _smartLampService.Alive(DeviceId);
                 await base.Connect(context, DeviceId);
+            }
 
         }
-        public override Task<bool> Disconnect(int id)
+        public override async Task<bool> Disconnect(int id)
         {
             _logger.LogWarning("Disconnect to number " + id + " smart lamp");
             string devices = "";
-            foreach(var item in WebSocketsClients)
+            foreach (var item in WebSocketsClients)
             {
                 devices += item.Key.ToString() + " - ";
             }
-            _logger.LogWarning("Devices :  " + devices);
-            _smartLampService.Kill(id);
-            return base.Disconnect(id);
+            _logger.LogWarning("Kaldırıldı Devices :  " + devices);
+            await _smartLampService.Kill(id);
+            return await base.Disconnect(id);
+        }
+        public override Task log(string log)
+        {
+            _logger.LogWarning(log);
+            return base.log(log);
         }
 
     }

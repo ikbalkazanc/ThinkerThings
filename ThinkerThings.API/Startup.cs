@@ -69,17 +69,19 @@ namespace ThinkerThings.API
             services.AddScoped(typeof(IAirConditionerService), typeof(AirConditionerService));
             services.AddScoped(typeof(IMotionSensorService), typeof(MotionSensorService));
             services.AddScoped(typeof(ISmartLampService), typeof(SmartLampService));
-            
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddScoped<SmartLampWebSocketHub>();
             services.AddScoped<AirConditionerWebSocketHub>();
 
-            services.AddSignalR();
+
+
             services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseNpgsql(Configuration["ConnectionStrings:PostgreSqlConStr"].ToString());
             });
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -98,12 +100,14 @@ namespace ThinkerThings.API
 
             };
             app.UseRouting();
-            app.UseAuthorization();
-            app.UseOpenApi();
-            app.UseWebSockets();
-            app.UseMiddleware<WebSocketHandleMiddleware>();
             app.UseCors("HubPolicy");
             app.UseCors();
+            app.UseWebSockets();
+            app.UseAuthorization();
+            app.UseOpenApi();
+
+            app.UseMiddleware<WebSocketHandleMiddleware>();
+
             app.UseSwaggerUi3();
             app.UseEndpoints(endpoints =>
             {

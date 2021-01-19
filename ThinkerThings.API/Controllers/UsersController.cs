@@ -38,5 +38,14 @@ namespace ThinkerThings.API.Controllers
             var user = await _userService.GetByIdAsync(id);
             return Ok(user);
         }
+        [HttpGet("getwithmail")]
+        public async Task<IActionResult> GetUserById(string mail, string password)
+        {
+            var user = await _userService.GetUserWithMail(mail);
+            if (user == null) return BadRequest();
+            if (user.Password == password) return Ok(user);
+            return BadRequest();
+
+        }
     }
 }

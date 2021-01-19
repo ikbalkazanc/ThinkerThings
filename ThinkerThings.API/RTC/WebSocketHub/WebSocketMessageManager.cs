@@ -18,20 +18,25 @@ namespace ThinkerThings.API.RTC.WebSocketHub
         }
         public async Task ReceiveNewMessage(string message)
         {
-            RtcMessage data;
-            try
+            if (message != "")
             {
-                data = JsonConvert.DeserializeObject<RtcMessage>(message);
-
-                if (data.Command.type == "AIRCONDITIONER_GET_TEMPATURE")
+                RtcMessage data;
+                try
                 {
-                    await _airConditionerHub.Clients.Client(data.signalrConnectionId).SendAsync("tempature", data.Command.tempature);
+                    data = JsonConvert.DeserializeObject<RtcMessage>(message);
+
+                    if (data.Command.type == "AIRCONDITIONER_GET_TEMPATURE")
+                    {
+                        await _airConditionerHub.Clients.Client(data.signalrConnectionId).SendAsync("tempature", data.Command.tempature);
+                    }
+                }
+                catch
+                {
+                    return;
                 }
             }
-            catch
-            {
+            else
                 return;
-            }
 
         }
     }

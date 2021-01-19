@@ -72,12 +72,16 @@ namespace ThinkerThings.API.RTC.WebSocketHub.Devices
             }
             _logger.LogWarning("Devices :  " + devices);
             var lamp = await _airConditionerService.GetByIdAsync(DeviceId);
-            await _airConditionerService.Alive(DeviceId);
+
             if (lamp != null)
+            {
+                await _airConditionerService.Alive(DeviceId);
                 await base.Connect(context, DeviceId);
+            }
+
 
         }
-        public override Task<bool> Disconnect(int id)
+        public override async Task<bool> Disconnect(int id)
         {
             _logger.LogWarning("Disonnect to number " + id + " air conditioner");
             string devices = "";
@@ -86,8 +90,8 @@ namespace ThinkerThings.API.RTC.WebSocketHub.Devices
                 devices += item.Key.ToString() + " - ";
             }
             _logger.LogWarning("Devices :  " + devices);
-            _airConditionerService.Kill(id);
-            return base.Disconnect(id);
+            await _airConditionerService.Kill(id);
+            return await base.Disconnect(id);
         }
 
     }

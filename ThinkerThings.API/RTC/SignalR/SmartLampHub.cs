@@ -19,8 +19,6 @@ namespace ThinkerThings.API.RTC.SignalR
             RtcMessage newMessage = new RtcMessage();
             newMessage = JsonConvert.DeserializeObject<RtcMessage>(message);
             await _smartLampWebSocketHub.ToggleLamp(newMessage);
-
-            await Clients.All.SendAsync("Toggelled", "selamunaleyküm");
         }
 
     }

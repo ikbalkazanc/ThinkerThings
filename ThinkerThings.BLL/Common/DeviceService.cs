@@ -23,7 +23,7 @@ namespace ThinkerThings.BLL.Common
 
         public async Task Kill(int id)
         {
-            var device = await _repository.SingleWhere(x => x.Id == id);
+            var device = await _repository.GetByIdAsync(id);
             if (device != null)
             {
                 device.isAlive = false;
@@ -34,7 +34,7 @@ namespace ThinkerThings.BLL.Common
 
         public async Task Alive(int id)
         {
-            var device = await _repository.SingleWhere(x => x.Id == id);
+            var device = await _repository.GetByIdAsync(id);
             if(device != null)
             {
                 device.isAlive = true;

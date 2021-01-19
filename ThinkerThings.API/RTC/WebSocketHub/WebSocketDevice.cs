@@ -35,19 +35,33 @@ namespace ThinkerThings.API.RTC.WebSocketHub
 
         private async Task Listener(int deviceId, WebSocket webSocket)
         {
-            var buffer = new byte[50];
-            WebSocketReceiveResult result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-            await _manager.ReceiveNewMessage(System.Text.Encoding.UTF8.GetString(buffer).Substring(0, FindZeroIndex(buffer)));
-            await webSocket.SendAsync(new ArraySegment<byte>(buffer, 0, buffer.Length), WebSocketMessageType.Text, true, CancellationToken.None);
-            while (!result.CloseStatus.HasValue)
+            try
             {
-                buffer = new byte[50];
-                result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-                await webSocket.SendAsync(new ArraySegment<byte>(buffer, 0, buffer.Length), WebSocketMessageType.Text, true, CancellationToken.None);
+                var buffer = new byte[50];
+                WebSocketReceiveResult result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+                await log("girdik");
                 await _manager.ReceiveNewMessage(System.Text.Encoding.UTF8.GetString(buffer).Substring(0, FindZeroIndex(buffer)));
+                await log("giriyoruz");
+                await webSocket.SendAsync(new ArraySegment<byte>(buffer, 0, buffer.Length), WebSocketMessageType.Text, true, CancellationToken.None);
+
+                while (!result.CloseStatus.HasValue)
+                {
+                    buffer = new byte[50];
+                    await log("döüyoruz 1");
+                    result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+                    await log("dönüyoruz 2");
+                    await webSocket.SendAsync(new ArraySegment<byte>(buffer, 0, buffer.Length), WebSocketMessageType.Text, true, CancellationToken.None);
+                    await _manager.ReceiveNewMessage(System.Text.Encoding.UTF8.GetString(buffer).Substring(0, FindZeroIndex(buffer)));
+                }
+
+                await Disconnect(deviceId);
+
+                await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
             }
-            await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
-            await Disconnect(deviceId);
+            catch (Exception ex)
+            {
+                await log(ex.Message);
+            }
         }
         private int FindZeroIndex(byte[] buffer)
         {
@@ -56,6 +70,11 @@ namespace ThinkerThings.API.RTC.WebSocketHub
                 i++;
             return i;
         }
+        public virtual async Task log(string log)
+        {
+
+        }
+
         public virtual async Task Connect(HttpContext context, int DeviceId)
         {
             WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
